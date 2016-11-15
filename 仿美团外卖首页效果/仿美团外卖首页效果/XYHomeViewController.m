@@ -23,6 +23,11 @@
 
 @property (nonatomic,weak) UISearchBar *searchBr;
 
+@property (nonatomic,weak) UIButton *addressBtn;
+
+@property (nonatomic,weak) UIButton *rightSearchBtn;
+
+
 
 @end
 
@@ -104,6 +109,7 @@
     adrressBtn.centerX = kScreenW*0.5;
     adrressBtn.centerY = customNav.height*0.5;
     [customNav addSubview:adrressBtn];
+    self.addressBtn = adrressBtn;
 //    self.navigationController.navigationItem.titleView = adrressBtn;
     //右侧搜索按钮
     UIButton *rightSearchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -115,6 +121,7 @@
     [rightSearchBtn setTitle:@"搜索" forState:UIControlStateNormal];
     rightSearchBtn.backgroundColor = [[UIColor darkGrayColor] colorWithAlphaComponent:0.5];
     [customNav addSubview:rightSearchBtn];
+    self.rightSearchBtn = rightSearchBtn;
     [self.view addSubview:customNav];
     
     self.customNav = customNav;
@@ -195,13 +202,22 @@
     if (alpha >= 0.8) {
         [UIView animateWithDuration:0.25 animations:^{
             self.searchBr.x = 10;
+            self.rightSearchBtn.hidden = YES;
+            self.addressBtn.hidden = YES;
         }];
     }
     
     if (alpha <= 0.2) {
         [UIView animateWithDuration:0.25 animations:^{
             self.searchBr.x = kScreenW;
+            self.rightSearchBtn.hidden = NO;
+            self.addressBtn.hidden = NO;
         }];
+    }
+    
+    if (scrollView.contentOffset.y < 0) {
+        self.rightSearchBtn.hidden = YES;
+        self.addressBtn.hidden = YES;
     }
 }
 @end
